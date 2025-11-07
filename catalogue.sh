@@ -22,10 +22,10 @@ fi
 
 VALIDATE(){
     if [ $? -ne 0 ]; then
-        echo -e " Installing $2 ..... $R FAILED $N" | tee -a $Log_File
+        echo -e " $2 ..... $R FAILED $N" | tee -a $Log_File
         exit 1
     else
-        echo -e "Installing $2 .... $G SUCCESS $N" | tee -a $Log_File
+        echo -e " $2 .... $G SUCCESS $N" | tee -a $Log_File
     fi
 }
 
