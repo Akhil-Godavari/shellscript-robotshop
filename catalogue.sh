@@ -11,6 +11,7 @@ Logs_Folder="/var/log/shell-roboshop"
 Script_Name=$( echo $0 | cut -d "." -f1 )
 Log_File="$Logs_Folder/$Script_Name.log"
 MONGODB_HOST=mongodb.galpalfan.shop
+SCRIPT_DIRECTORY=$PWD
 
 mkdir -p $Logs_Folder
 echo " Script started executing at: $(date)"
@@ -58,7 +59,8 @@ VALIDATE $? "Unzipping catalogue"
 npm install &>>$Log_File
 VALIDATE $? "Install dependencies" 
 
-cp catalogue.service /etc/systemd/system/catalogue.service
+
+cp $SCRIPT_DIRECTORY/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copying the services"
 
 systemctl daemon-reload
