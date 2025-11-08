@@ -60,6 +60,9 @@ VALIDATE $? "Downloading Catalogue Application"
 cd /app 
 VALIDATE $? "Chaging to app directory"
 
+rm -rf /app/*
+VALIDATE $? "Removing app directory if the content is present and unzipping again"
+
 unzip /tmp/catalogue.zip &>>$Log_File
 VALIDATE $? "Unzipping catalogue"
  
