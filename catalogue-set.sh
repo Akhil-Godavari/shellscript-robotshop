@@ -23,16 +23,10 @@ if [ $UserID -ne 0 ]; then
     exit 1 # failure code should be other than 0
 fi
 
-
-
 ######## NodeJS Installation###
 
 dnf module disable nodejs -y &>>$Log_File
-
-
 dnf module enable nodejs:20 -y &>>$Log_File
-
-
 dnf install nodejs -y &>>$Log_File
 echo "Installing NodeJS... $G SUCCESS $N"
 
@@ -47,41 +41,19 @@ fi
 
 
 mkdir -p /app 
-
-
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$Log_File 
-
-
 cd /app 
-
-
 rm -rf /app/*
-
-
 unzip /tmp/catalogue.zip &>>$Log_File
-
- 
 npm install &>>$Log_File
-
-
-
 cp $SCRIPT_DIRECTORY/catalogue.service /etc/systemd/system/catalogue.service
-
-
 systemctl daemon-reload
-
-
 systemctl enable catalogue &>>$Log_File
-
-
 systemctl start catalogue
-
-
 cp $SCRIPT_DIRECTORY/mongo.repo /etc/yum.repos.d/mongo.repo
 echo -e "Catalogue Application Setup... $G SUCCESS $N"
 
 dnf install mongodb-mongosh -y &>>$Log_File
-
 
 INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -lt 0 ]; then
