@@ -34,7 +34,7 @@ dnf module enable nodejs:20 -y &>>$Log_File
 
 
 dnf install nodejs -y &>>$Log_File
-
+echo "Installing NodeJS... $G SUCCESS $N"
 
 id roboshop
 if [ $? -ne 0 ]; then
@@ -78,9 +78,9 @@ systemctl start catalogue
 
 
 cp $SCRIPT_DIRECTORY/mongo.repo /etc/yum.repos.d/mongo.repo
+echo -e "Catalogue Application Setup... $G SUCCESS $N"
 
-
-dnf install mongodb-mongoshdfgd -y &>>$Log_File
+dnf install mongodb-mongosh -y &>>$Log_File
 
 
 INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
@@ -92,6 +92,7 @@ else
     echo -e "Catalogue products already Loaded... $Y SKIPPING $N"
 fi
 systemctl restart catalogue
+echo -e "Loading Products and restarting catalogue... $G SUCCESS $N"
 
 
 
