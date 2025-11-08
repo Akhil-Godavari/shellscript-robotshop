@@ -41,10 +41,17 @@ VALIDATE $? "ENabling NodeJS 20"
 dnf install nodejs -y &>>$Log_File
 VALIDATE $? "Install NodeJS"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$Log_File
-VALIDATE $? "Creating System User"
+id roboshop
+if [ $? -ne 0 ]; then
 
-mkdir /app 
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$Log_File
+    VALIDATE $? "Creating System User"
+else 
+    echo -e "User already exist ... $Y SKIPPING $N"
+fi
+
+
+mkdir -p /app 
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$Log_File 
@@ -72,7 +79,7 @@ VALIDATE $? "Enabling catalogue"
 systemctl start catalogue
 VALIDATE $? "Starting catalogue services"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIRECTORY/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Copying mongo repo"
 
 dnf install mongodb-mongosh -y &>>$Log_File
