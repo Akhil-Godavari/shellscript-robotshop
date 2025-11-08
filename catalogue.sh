@@ -89,7 +89,7 @@ dnf install mongodb-mongosh -y &>>$Log_File
 VALIDATE $? "Install MongoDB Client"
 
 INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
-if[ $INDEX -le 0]; then
+if [ $INDEX -le 0]; then
 
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$Log_File
     VALIDATE $? "Load Catalogue Products"
