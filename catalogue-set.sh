@@ -43,32 +43,32 @@ mkdir -p /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$Log_File 
 cd /app 
 rm -rf /app/*
-VALIDATE $? "Removing existing code"
+
 
 unzip /tmp/catalogue.zip &>>$Log_File
 
 npm install &>>$Log_File
-VALIDATE $? "Packages installed"
+
 
 cp $SCRIPT_DIRECTORY/catalogue.service /etc/systemd/system/catalogue.service
-VALIDATE $? "Catalogue services are created"
+
 
 systemctl daemon-reload
-VALIDATE $? "Daemon reloaded"
+
 
 systemctl enable catalogue &>>$Log_File
-VALIDATE $? "Enable Catalogue"
+
 
 systemctl start catalogue
-VALIDATE $? "Started Catalogue"
+
 
 cp $SCRIPT_DIRECTORY/mongo.repo /etc/yum.repos.d/mongo.repo
-VALIDATE $? "Copied Mongo repo"
+
 
 echo -e "Catalogue Application Setup... $G SUCCESS $N"
 
 dnf install mongodb-mongosh -y &>>$Log_File
-VALIDATE $? "MongoDB Client Installed"
+
 
 INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -lt 0 ]; then
@@ -79,7 +79,7 @@ else
     echo -e "Catalogue products already Loaded... $Y SKIPPING $N"
 fi
 systemctl restart catalogue
-VALIDATE $? "Catalogue Restarted"
+
 echo -e "Loading Products and restarting catalogue... $G SUCCESS $N"
 
 
