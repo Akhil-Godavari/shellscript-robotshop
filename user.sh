@@ -36,7 +36,7 @@ dnf module disable nodejs -y &>>$Log_File
 VALIDATE $? "Disabling NodeJS"
 
 dnf module enable nodejs:20 -y &>>$Log_File
-VALIDATE $? "ENabling NodeJS 20"
+VALIDATE $? "Enabling NodeJS 20"
 
 dnf install nodejs -y &>>$Log_File
 VALIDATE $? "Install NodeJS"
@@ -54,49 +54,37 @@ fi
 mkdir -p /app 
 VALIDATE $? "Creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$Log_File 
-VALIDATE $? "Downloading Catalogue Application"
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$Log_File 
+VALIDATE $? "Downloading user Application"
 
 cd /app 
-VALIDATE $? "Chaging to app directory"
+VALIDATE $? "Changing to app directory"
 
 rm -rf /app/*
 VALIDATE $? "Removing app directory if the content is present and unzipping again"
 
-unzip /tmp/catalogue.zip &>>$Log_File
-VALIDATE $? "Unzipping catalogue"
+unzip /tmp/user.zip &>>$Log_File
+VALIDATE $? "Unzipping user"
  
 npm install &>>$Log_File
 VALIDATE $? "Install dependencies" 
 
 
-cp $SCRIPT_DIRECTORY/catalogue.service /etc/systemd/system/catalogue.service
+cp $SCRIPT_DIRECTORY/user.service /etc/systemd/system/user.service
 VALIDATE $? "Copying the services"
 
 systemctl daemon-reload
 VALIDATE $? "Reloading Daemon"
 
-systemctl enable catalogue &>>$Log_File
-VALIDATE $? "Enabling catalogue"
+systemctl enable user &>>$Log_File
+VALIDATE $? "Enabling user"
 
-systemctl start catalogue
-VALIDATE $? "Starting catalogue services"
+systemctl start user
+VALIDATE $? "Starting user services"
 
-cp $SCRIPT_DIRECTORY/mongo.repo /etc/yum.repos.d/mongo.repo
-VALIDATE $? "Copying mongo repo"
 
-dnf install mongodb-mongosh -y &>>$Log_File
-VALIDATE $? "Install MongoDB Client"
-
-INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
-if [ $INDEX -lt 0 ]; then
-
-    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$Log_File
-    VALIDATE $? "Load Catalogue Products"
-else
-    echo -e "Catalogue products already Loaded... $Y SKIPPING $N"
-fi
-systemctl restart catalogue
-VALIDATE $? "Restarting Catalogue Service"
-
+Start_Time=$(date +%s)
+End_Time=$(date +%s)
+Total_Time=$(($End_Time - $Start_Time))
+echo -e " Script Excution time: $Y $Total_Time Seconds $N"
 
