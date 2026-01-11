@@ -80,13 +80,13 @@ dnf install mysql -y
 
 mysql -h $MySQL_HOST -uroot -pRoboShop@1 -e 'use mysql' &>>$Log_File
 if [ $? -ne 0 ]; then
-    echo " print value of mysqlhost: $?"
+    
     mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$Log_File
     mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql  &>>$Log_File
     mysql -h $MySQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$Log_File
 
 else 
- 
+    echo " print value of mysqlhost: $?"
     echo -e " Shipping data is already loaded .. $Y SKIPPING .. $N "
 
 fi 
