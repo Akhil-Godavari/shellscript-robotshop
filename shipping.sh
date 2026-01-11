@@ -11,7 +11,7 @@ Logs_Folder="/var/log/shell-roboshop"
 Script_Name=$( echo $0 | cut -d "." -f1 )
 Log_File="$Logs_Folder/$Script_Name.log"
 MySQL_HOST=mysql.galpalfan.shop
-SCRIPT_DIRECTORY=$PWD
+Script_Dir=$PWD
 
 mkdir -p $Logs_Folder
 echo " Script started executing at: $(date)"
@@ -29,7 +29,7 @@ VALIDATE(){
         echo -e " $2 .... $G SUCCESS $N" | tee -a $Log_File
     fi
 }
-dnf install maven -y
+dnf install maven -y &>>$Log_File
 
 id roboshop &>>$Log_File
 if [ $? -ne 0 ]; then
