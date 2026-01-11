@@ -11,6 +11,7 @@ Logs_Folder="/var/log/shell-roboshop"
 Script_Name=$( echo $0 | cut -d "." -f1 )
 Log_File="$Logs_Folder/$Script_Name.log"
 
+
 mkdir -p $Logs_Folder
 echo " Script started executing at: $(date)"
 
