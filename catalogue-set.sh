@@ -70,7 +70,7 @@ echo -e "Catalogue Application Setup... $G SUCCESS $N"
 dnf install mongodb-mongosh -y &>>$Log_File
 
 
-INDEX=$(mongosh mongodb.galpalfan.shop --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
+INDEX=$(mongosh $MONGODB_HOST --quiet --eval "dbMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -lt 0 ]; then
 
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$Log_File
