@@ -10,7 +10,7 @@ N="\e[37m"
 Logs_Folder="/var/log/shell-roboshop"
 Script_Name=$( echo $0 | cut -d "." -f1 )
 Log_File="$Logs_Folder/$Script_Name.log"
-Start_Time=$(date +%s)
+Start_Time=$(date)
 
 mkdir -p $Logs_Folder
 echo " Script started executing at: $Start_Time Seconds"
@@ -49,7 +49,7 @@ VALIDATE $? " ENabling Redis"
 systemctl start redis $>>$Log_File
 VALIDATE $? "Starting Redis"
 
-End_Time=$(date +%s)
+End_Time=$(date)
 Total_Time=$(($End_Time - $Start_Time))
 echo -e " Script Excution time: $Y $Total_Time Seconds $N"
 
