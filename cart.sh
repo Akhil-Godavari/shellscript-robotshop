@@ -16,7 +16,7 @@ SCRIPT_DIRECTORY=$PWD
 mkdir -p $Logs_Folder
 echo " Script started executing at: $(date)"
 
-if [ $cartID -ne 0 ]; then
+if [ $UserID -ne 0 ]; then
     echo -e "$R ERROR :: Please run this script with ROOT Privilages $N" | tee -a $Log_File
     exit 1 # failure code should be other than 0
 fi
