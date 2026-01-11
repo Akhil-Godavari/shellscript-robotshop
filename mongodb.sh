@@ -28,14 +28,7 @@ VALIDATE(){
         echo -e "Installing $2 .... $G SUCCESS $N" | tee -a $Log_File
     fi
 }
-id roboshop
-if [ $? -ne 0 ]; then
 
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$Log_File
-    
-else 
-    echo -e "User already exist ... $Y SKIPPING $N"
-fi
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding Mongo Repo"
